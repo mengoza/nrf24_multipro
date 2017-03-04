@@ -62,11 +62,11 @@
 // #define SPEKTRUM // TAER, 1100-1900, AIL & RUD reversed
 
 // PPM stream settings
-#define CHANNELS 12 // number of channels in ppm stream, 12 ideally
+#define CHANNELS 6 // number of channels in ppm stream, 12 ideally
 enum chan_order{
-    THROTTLE,
     AILERON,
     ELEVATOR,
+    THROTTLE,
     RUDDER,
     AUX1,  // (CH5)  led light, or 3 pos. rate on CX-10, H7, or inverted flight on H101
     AUX2,  // (CH6)  flip control
@@ -75,7 +75,7 @@ enum chan_order{
     AUX5,  // (CH9)  headless
     AUX6,  // (CH10) calibrate Y (V2x2), pitch trim (H7), RTH (Bayang, H20), 360deg flip mode (H8-3D, H22)
     AUX7,  // (CH11) calibrate X (V2x2), roll trim (H7)
-    AUX8,  // (CH12) Reset / Rebind
+    AUX8  // (CH12) Reset / Rebind
 };
 
 #define PPM_MIN 1000
