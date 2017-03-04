@@ -21,8 +21,8 @@
 #define BAYANG_ADDRESS_LENGTH   5
 
 static uint8_t Bayang_rf_chan;
-static uint8_t Bayang_rf_channels[BAYANG_RF_NUM_CHANNELS] = {0,};
-static uint8_t Bayang_rx_tx_addr[BAYANG_ADDRESS_LENGTH];
+static uint8_t Bayang_rf_channels[BAYANG_RF_NUM_CHANNELS] = {0x00, 0x11, 0x23, 0x35};  // fixed channels 
+static uint8_t Bayang_rx_tx_addr[BAYANG_ADDRESS_LENGTH] = {0xc5, 0x48, 0x08, 0xa1, 0x24};  // fixed address
 
 enum{
     // flags going to packet[2]
@@ -49,13 +49,13 @@ void Bayang_init()
 {
     uint8_t i;
     const u8 bind_address[] = {0,0,0,0,0};
-    for(i=0; i<BAYANG_ADDRESS_LENGTH; i++) {
-        Bayang_rx_tx_addr[i] = random() & 0xff;
-    }
-    Bayang_rf_channels[0] = 0x00;
-    for(i=1; i<BAYANG_RF_NUM_CHANNELS; i++) {
-        Bayang_rf_channels[i] = random() % 0x42;
-    }
+//    for(i=0; i<BAYANG_ADDRESS_LENGTH; i++) {      // no random addr and channels
+//        Bayang_rx_tx_addr[i] = random() & 0xff;
+//    }
+//    Bayang_rf_channels[0] = 0x00;
+//    for(i=1; i<BAYANG_RF_NUM_CHANNELS; i++) {
+//        Bayang_rf_channels[i] = random() % 0x42;
+//    }
     NRF24L01_Initialize();
     NRF24L01_SetTxRxMode(TX_EN);
     XN297_SetTXAddr(bind_address, BAYANG_ADDRESS_LENGTH);
@@ -108,11 +108,11 @@ void Bayang_send_packet(u8 bind)
         packet[0] = 0xa5;
         packet[1] = 0xfa;   // normal mode is 0xf7, expert 0xfa
         packet[2] = GET_FLAG(AUX2, BAYANG_FLAG_FLIP)
-                  | GET_FLAG(AUX5, BAYANG_FLAG_HEADLESS)
+                  | GET_FLAG(AUX1, BAYANG_FLAG_HEADLESS)
                   | GET_FLAG(AUX6, BAYANG_FLAG_RTH)
                   | GET_FLAG(AUX3, BAYANG_FLAG_SNAPSHOT)
                   | GET_FLAG(AUX4, BAYANG_FLAG_VIDEO);
-        packet[3] = GET_FLAG(AUX1, BAYANG_FLAG_INVERT);
+        packet[3] = GET_FLAG(AUX5, BAYANG_FLAG_INVERT);
         chanval.value = map(ppm[AILERON], PPM_MIN, PPM_MAX, 0, 0x3ff);   // aileron
         packet[4] = chanval.bytes.msb + DYNTRIM(chanval.value);
         packet[5] = chanval.bytes.lsb;
