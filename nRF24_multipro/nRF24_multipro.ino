@@ -62,7 +62,7 @@
 // #define SPEKTRUM // TAER, 1100-1900, AIL & RUD reversed
 
 // PPM stream settings
-#define CHANNELS 6 // number of channels in ppm stream, 12 ideally
+#define CHANNELS 10 // number of channels in ppm stream, 12 ideally
 enum chan_order{
     AILERON,
     ELEVATOR,
