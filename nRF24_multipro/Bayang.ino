@@ -107,12 +107,12 @@ void Bayang_send_packet(u8 bind)
     } else {
         packet[0] = 0xa5;
         packet[1] = 0xfa;   // normal mode is 0xf7, expert 0xfa
-        packet[2] = GET_FLAG(AUX2, BAYANG_FLAG_FLIP)
-                  | GET_FLAG(AUX1, BAYANG_FLAG_HEADLESS)
-                  | GET_FLAG(AUX6, BAYANG_FLAG_RTH)
-                  | GET_FLAG(AUX3, BAYANG_FLAG_SNAPSHOT)
-                  | GET_FLAG(AUX4, BAYANG_FLAG_VIDEO);
-        packet[3] = GET_FLAG(AUX5, BAYANG_FLAG_INVERT);
+        packet[2] = GET_FLAG_INV(AUX2, BAYANG_FLAG_FLIP)
+                  | GET_FLAG_INV(AUX1, BAYANG_FLAG_HEADLESS)
+                  | GET_FLAG_INV(AUX6, BAYANG_FLAG_RTH)
+                  | GET_FLAG_INV(AUX3, BAYANG_FLAG_SNAPSHOT)
+                  | GET_FLAG_INV(AUX4, BAYANG_FLAG_VIDEO);
+        packet[3] = GET_FLAG_INV(AUX5, BAYANG_FLAG_INVERT);
         chanval.value = map(ppm[AILERON], PPM_MIN, PPM_MAX, 0, 0x3ff);   // aileron
         packet[4] = chanval.bytes.msb + DYNTRIM(chanval.value);
         packet[5] = chanval.bytes.lsb;
